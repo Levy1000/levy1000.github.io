@@ -1,1 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Red de Apoyo Interinstitucional</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f7f7f7;
+    }
 
+    header {
+      text-align: center;
+      padding: 50px;
+      background-color: #4b0082;
+      color: white;
+    }
+
+    .logos {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+
+    .logo-placeholder {
+      width: 45%;
+      height: 100px;
+      background-color: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .intro {
+      background: #fff;
+      padding: 15px;
+      border-left: 5px solid #4b0082;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+    }
+
+    form label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+
+    form button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background-color: #4b0082;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #eee;
+    }
+
+    .search-container {
+      margin-bottom: 15px;
+    }
+
+    .search-container input {
+      padding: 8px;
+      width: 100%;
+    }
+
+    .delete-btn {
+      background: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<header style="position: relative; text-align: center;">
+  <img src="logo.png" alt="Logo" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); height: 140px;">
+  <img src="sue.png" alt="Logo" style="position: absolute; left: 150px; top: 50%; transform: translateY(-50%); height: 130px;">
+    <img src="tolima.png" alt="Logo" style="position: absolute; right: 160px; top: 50%; transform: translateY(-50%); height: 70px;">
+     <img src="sura.png" alt="Logo" style="position: absolute; right: 230px; top: 50%; transform: translateY(-50%); height: 60px;">
+     <img src="uptc.png" alt="Logo" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); height: 60px;">
+  <h1 style="margin: 0;">Red de Apoyo Interinstitucional - Portal de Oportunidad de Alianza</h1>
+</header>
+
+<section class="intro">
+  <p>
+    Bienvenido a la Red de Apoyo Interinstitucional, un espacio diseñado para facilitar el acceso a oportunidades de financiamiento, cooperación y respaldo institucional para el desarrollo de proyectos académicos, científicos y tecnológicos. Aquí encontrarás información actualizada sobre las principales convocatorias emitidas por universidades, centros de investigación, organismos gubernamentales, fundaciones y entidades internacionales.
+  </p>
+  <p>
+    Explora, postula y haz parte de una red comprometida con el fortalecimiento de la investigación y la innovación.
+  </p>
+</section>
+
+<form id="convocatoriaForm">
+  <label>Nombre de la institución u organización</label>
+  <input type="text" id="institucion" required>
+
+  <label>Título de la oportunidad</label>
+  <input type="text" id="titulo" required>
+
+  <label>Enlace o contacto</label>
+  <input type="text" id="enlace" required>
+
+  <label>Tipo de convocatoria</label>
+  <select id="tipo">
+    <option>Cooperación internacional</option>
+    <option>Cofinanciación</option>
+    <option>Sistema de regalías</option>
+    <option>Servicios Técnicos</option>
+    <option>Sector productivo</option>
+    <option>Otra</option>
+  </select>
+
+  <label>Descripción breve (fechas y documentación)</label>
+  <textarea id="descripcion" rows="4" required></textarea>
+
+  <button type="submit">Registrar Convocatoria</button>
+</form>
+
+<div class="search-container">
+  <input type="text" id="searchInput" placeholder="Buscar por institución, título o tipo...">
+</div>
+
+<table id="convocatoriaTable">
+  <thead>
+    <tr>
+      <th>Institución</th>
+      <th>Título</th>
+      <th>Enlace</th>
+      <th>Tipo</th>
+      <th>Descripción</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+  const form = document.getElementById("convocatoriaForm");
+  const tableBody = document.querySelector("#convocatoriaTable tbody");
+  const searchInput = document.getElementById("searchInput");
+
+  let convocatorias = JSON.parse(localStorage.getItem("convocatorias")) || [];
+
+  function renderTable(data) {
+    tableBody.innerHTML = "";
+    data.forEach((item, index) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${item.institucion}</td>
+        <td>${item.titulo}</td>
+        <td><a href="${item.enlace}" target="_blank">${item.enlace}</a></td>
+        <td>${item.tipo}</td>
+        <td>${item.descripcion}</td>
+        <td><button class="delete-btn" onclick="deleteEntry(${index})">Eliminar</button></td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+
+  function deleteEntry(index) {
+    convocatorias.splice(index, 1);
+    localStorage.setItem("convocatorias", JSON.stringify(convocatorias));
+    renderTable(convocatorias);
+  }
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const nuevaConvocatoria = {
+      institucion: document.getElementById("institucion").value,
+      titulo: document.getElementById("titulo").value,
+      enlace: document.getElementById("enlace").value,
+      tipo: document.getElementById("tipo").value,
+      descripcion: document.getElementById("descripcion").value
+    };
+    convocatorias.push(nuevaConvocatoria);
+    localStorage.setItem("convocatorias", JSON.stringify(convocatorias));
+    renderTable(convocatorias);
+    form.reset();
+  });
+
+  searchInput.addEventListener("input", function() {
+    const value = this.value.toLowerCase();
+    const filtered = convocatorias.filter(c =>
+      c.institucion.toLowerCase().includes(value) ||
+      c.titulo.toLowerCase().includes(value) ||
+      c.tipo.toLowerCase().includes(value)
+    );
+    renderTable(filtered);
+  });
+
+  // Inicializar tabla al cargar
+  renderTable(convocatorias);
+</script>
+
+</body>
+</html>
