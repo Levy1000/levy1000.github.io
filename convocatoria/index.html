@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Red de Apoyo Interinstitucional</title>
   <style>
     body {
@@ -10,28 +11,92 @@
       background-color: #f7f7f7;
     }
 
-    header {
-      text-align: center;
-      padding: 50px;
-      background-color: #4b0082;
-      color: white;
-    }
+    .header {
+  background-color: #4b0082;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  text-align: center;
+}
 
-    .logos {
-      display: flex;
-      justify-content: space-between;
-      margin: 20px 0;
-    }
+.logo-unad {
+  max-height: 120px !important;
+  height: auto;
+  width: auto;
+}
 
-    .logo-placeholder {
-      width: 45%;
-      height: 100px;
-      background-color: #ddd;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: #555;
+.logo-sue {
+  max-height: 120px !important;
+  height: auto;
+  width: auto;
+}
+
+.logos-left,
+.logos-right {
+  display: flex;
+  gap: 10px;
+  flex: 0 0 auto;
+  align-items: center;
+}
+
+
+
+.header-title {
+  flex: 1 1 auto;
+  padding: 10px;
+}
+
+.header-title h1 {
+  font-size: 1.5em;
+  margin: 0;
+  font-weight: bold;
+}
+
+.header img {
+  max-height: 50px;
+  height: auto;
+  width: auto;
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logos-left,
+  .logos-right {
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 5px 0;
+  }
+
+  .header-title h1 {
+    font-size: 1.2em;
+  }
+
+  .header img {
+    max-height: 50px;
+  }
+}
+
+    @media (max-width: 768px) {
+      .header-title h1 {
+        font-size: 1.2em;
+      }
+
+      .logos-left,
+      .logos-right {
+        justify-content: center;
+      }
+
+      .header img {
+        max-height: 50px;
+      }
     }
 
     .intro {
@@ -104,13 +169,22 @@
   </style>
 </head>
 <body>
-<header style="position: relative; text-align: center;">
-  <img src="logo.png" alt="Logo" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); height: 140px;">
-  <img src="sue.png" alt="Logo" style="position: absolute; left: 150px; top: 50%; transform: translateY(-50%); height: 130px;">
-    <img src="tolima.png" alt="Logo" style="position: absolute; right: 160px; top: 50%; transform: translateY(-50%); height: 70px;">
-     <img src="sura.png" alt="Logo" style="position: absolute; right: 230px; top: 50%; transform: translateY(-50%); height: 60px;">
-     <img src="uptc.png" alt="Logo" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); height: 60px;">
-  <h1 style="margin: 0;">Red de Apoyo Interinstitucional - Portal de Oportunidad de Alianza</h1>
+
+<header class="header">
+  <div class="logos-left">
+    <img src="logo.png" alt="UNAD" class="logo-unad">
+    <img src="sue.png" alt="SUE" class="logo-sue">
+  </div>
+
+  <div class="header-title">
+    <h1><big><strong>Red de Apoyo Interinstitucional - Portal de Oportunidad de Alianza</strong></big></h1>
+  </div>
+
+  <div class="logos-right">
+    <img src="sura.png" alt="Surcolombiana">
+    <img src="tolima.png" alt="Tolima">
+    <img src="uptc.png" alt="UPTC">
+  </div>
 </header>
 
 <section class="intro">
@@ -120,7 +194,33 @@
   <p>
     Explora, postula y haz parte de una red comprometida con el fortalecimiento de la investigación y la innovación.
   </p>
+
+  <p>
+    <div class="instrucciones">
+  <li> Instrucciones:</li>
+  <ol>
+    <li>
+      Complete el formulario a continuación con la siguiente información: nombre de la institución, título de la oportunidad, enlace o contacto de la institución u organización, tipo de convocatoria, una breve descripción, fechas importantes y documentación requerida.
+    </li>
+    <li>
+      Haga clic en el botón “Registrar convocatoria” para guardar la información.
+    </li>
+    <li>
+      El registro aparecerá en la parte inferior de la página.
+    </li>
+    <li>
+      Si desea buscar una convocatoria, puede utilizar la barra de búsqueda para filtrar los datos.
+    </li>
+  </ol>
+</div>
+  </p>
 </section>
+
+<div id="adminLogin" style="margin-bottom: 20px; background: #fff; padding: 10px; border: 1px solid #ccc;">
+  <label for="adminPassword"><strong>Modo administrador:</strong></label>
+  <input type="password" id="adminPassword" placeholder="Contraseña de administrador">
+  <button onclick="loginAdmin()">Ingresar</button>
+</div>
 
 <form id="convocatoriaForm">
   <label>Nombre de la institución u organización</label>
@@ -172,6 +272,19 @@
   const searchInput = document.getElementById("searchInput");
 
   let convocatorias = JSON.parse(localStorage.getItem("convocatorias")) || [];
+  let isAdmin = false;
+  const adminPass = "admin2025"; // ← Cambia esta contraseña como quieras
+
+  function loginAdmin() {
+    const input = document.getElementById("adminPassword").value;
+    if (input === adminPass) {
+      isAdmin = true;
+      alert("Modo administrador activado.");
+      renderTable(convocatorias);
+    } else {
+      alert("Contraseña incorrecta.");
+    }
+  }
 
   function renderTable(data) {
     tableBody.innerHTML = "";
@@ -183,16 +296,24 @@
         <td><a href="${item.enlace}" target="_blank">${item.enlace}</a></td>
         <td>${item.tipo}</td>
         <td>${item.descripcion}</td>
-        <td><button class="delete-btn" onclick="deleteEntry(${index})">Eliminar</button></td>
+        <td>
+          ${isAdmin ? `<button class="delete-btn" onclick="deleteEntry(${index})">Eliminar</button>` : ""}
+        </td>
       `;
       tableBody.appendChild(row);
     });
   }
 
   function deleteEntry(index) {
-    convocatorias.splice(index, 1);
-    localStorage.setItem("convocatorias", JSON.stringify(convocatorias));
-    renderTable(convocatorias);
+    if (isAdmin) {
+      if (confirm("¿Seguro que quieres eliminar esta convocatoria?")) {
+        convocatorias.splice(index, 1);
+        localStorage.setItem("convocatorias", JSON.stringify(convocatorias));
+        renderTable(convocatorias);
+      }
+    } else {
+      alert("No tienes permiso para eliminar registros.");
+    }
   }
 
   form.addEventListener("submit", function(e) {
