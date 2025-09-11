@@ -267,87 +267,100 @@
 </table>
 
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Convocatorias</title>
+</head>
+<body>
+
+  <h1>Convocatorias</h1>
+
+  <!-- Tabla donde se mostrarán los datos -->
+  <table id="tabla" border="1">
+    <thead>
+      <tr>
+        <th>Institución</th>
+        <th>Título</th>
+        <th>Enlace</th>
+        <th>Tipo</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <hr>
+
+  <!-- Formulario para enviar datos -->
+  <form id="formulario">
+    <input name="Institución" placeholder="Institución" required>
+    <input name="Título" placeholder="Título" required>
+    <input name="Enlace" placeholder="Enlace" required>
+    <input name="Tipo" placeholder="Tipo" required>
+    <input name="Descripción" placeholder="Descripción" required>
+    <button type="submit">Guardar</button>
+  </form>
+
 <script>
-  const form = document.getElementById("convocatoriaForm");
-  const tableBody = document.querySelector("#convocatoriaTable tbody");
-  const searchInput = document.getElementById("searchInput");
+    // Pega aquí la URL que obtuviste al implementar el Web App de Apps Script
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyvBeBEktTlA8Z_iflzo5UNZiy6SdAreyvfAkt-PYAy5PFdUhxs14qCoeNbGFdmY29z/exec";
 
-  let convocatorias = JSON.parse(localStorage.getItem("convocatorias")) || [];
-  let isAdmin = false;
-  const adminPass = "admin2025"; // ← Cambia esta contraseña como quieras
-
-  function loginAdmin() {
-    const input = document.getElementById("adminPassword").value;
-    if (input === adminPass) {
-      isAdmin = true;
-      alert("Modo administrador activado.");
-      renderTable(convocatorias);
-    } else {
-      alert("Contraseña incorrecta.");
+    // ---------- 1) Obtener datos y mostrarlos ----------
+    function cargarDatos() {
+      fetch(WEB_APP_URL)
+        .then(res => res.json())
+        .then(data => {
+          const tbody = document.querySelector('#tabla tbody');
+          tbody.innerHTML = ''; // limpiar
+          data.forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${row.Institución}</td>
+              <td>${row.Título}</td>
+              <td><a href="${row.Enlace}" target="_blank">${row.Enlace}</a></td>
+              <td>${row.Tipo}</td>
+              <td>${row.Descripción}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        })
+        .catch(err => console.error('Error GET:', err));
     }
-  }
 
-  function renderTable(data) {
-    tableBody.innerHTML = "";
-    data.forEach((item, index) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${item.institucion}</td>
-        <td>${item.titulo}</td>
-        <td><a href="${item.enlace}" target="_blank">${item.enlace}</a></td>
-        <td>${item.tipo}</td>
-        <td>${item.descripcion}</td>
-        <td>
-          ${isAdmin ? `<button class="delete-btn" onclick="deleteEntry(${index})">Eliminar</button>` : ""}
-        </td>
-      `;
-      tableBody.appendChild(row);
+    // ---------- 2) Enviar nuevos datos ----------
+    document.getElementById('formulario').addEventListener('submit', e => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const jsonData = {};
+      formData.forEach((v, k) => jsonData[k] = v);
+
+      fetch(WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(jsonData)
+      })
+      .then(res => res.json())
+      .then(r => {
+        if (r.status === 'success') {
+          alert('Registro guardado correctamente');
+          e.target.reset();
+          cargarDatos(); // refresca la tabla
+        } else {
+          alert('Error al guardar');
+        }
+      })
+      .catch(err => console.error('Error POST:', err));
     });
-  }
 
-  function deleteEntry(index) {
-    if (isAdmin) {
-      if (confirm("¿Seguro que quieres eliminar esta convocatoria?")) {
-        convocatorias.splice(index, 1);
-        localStorage.setItem("convocatorias", JSON.stringify(convocatorias));
-        renderTable(convocatorias);
-      }
-    } else {
-      alert("No tienes permiso para eliminar registros.");
-    }
-  }
-
-  form.addEventListener("submit", function(e) {
-    e.preventDefault();
-    const nuevaConvocatoria = {
-      institucion: document.getElementById("institucion").value,
-      titulo: document.getElementById("titulo").value,
-      enlace: document.getElementById("enlace").value,
-      tipo: document.getElementById("tipo").value,
-      descripcion: document.getElementById("descripcion").value
-    };
-    convocatorias.push(nuevaConvocatoria);
-    localStorage.setItem("convocatorias", JSON.stringify(convocatorias));
-    renderTable(convocatorias);
-    form.reset();
-  });
-
-  searchInput.addEventListener("input", function() {
-    const value = this.value.toLowerCase();
-    const filtered = convocatorias.filter(c =>
-      c.institucion.toLowerCase().includes(value) ||
-      c.titulo.toLowerCase().includes(value) ||
-      c.tipo.toLowerCase().includes(value)
-    );
-    renderTable(filtered);
-  });
-
-  // Inicializar tabla al cargar
-  renderTable(convocatorias);
-</script>
+    // Cargar los datos al abrir la página
+    cargarDatos();
+  </script>
 
 </body>
 </html>
+
 
 
 
