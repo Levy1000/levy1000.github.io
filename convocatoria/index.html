@@ -321,16 +321,17 @@ function deleteEntry(id) {
     return;
   }
   if (confirm("¿Seguro que quieres eliminar esta convocatoria?")) {
-    fetch(`${scriptURL}?id=${id}`, { method: "DELETE" })
-      .then(res => res.json())
-      .then(() => {
-        alert("Registro eliminado");
-        loadData();
-      })
-      .catch(err => alert("Error al eliminar: " + err));
+    fetch(`${scriptURL}?action=delete&id=${id}`, {
+      method: "POST"
+    })
+    .then(res => res.json())
+    .then(() => {
+      alert("Registro eliminado");
+      loadData();
+    })
+    .catch(err => alert("Error al eliminar: " + err));
   }
 }
-
 form.addEventListener("submit", function(e) {
   e.preventDefault();
   const nuevaConvocatoria = {
@@ -372,4 +373,5 @@ loadData();
 
 </body>
 </html>
+
 
