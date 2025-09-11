@@ -267,111 +267,46 @@
 </table>
 
 <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbzWcKnXGysLRu9jhmzKhqUatovyJjtie2RmLah7PuRXUn3UdW3hbH3F65l95Qxo3i2-/exec"; // ← TU URL
-const form = document.getElementById("convocatoriaForm");
-const tableBody = document.querySelector("#convocatoriaTable tbody");
-const searchInput = document.getElementById("searchInput");
+const URL_WEB_APP = "https://script.google.com/macros/s/XXXXXXXXXXXXXXXX/exec"; // <-- pega aquí la URL de tu Apps Script
 
-let convocatorias = [];
-let isAdmin = false;
-const adminPass = "admin2025"; // ← Cambia si quieres
+document.getElementById("miFormulario").addEventListener("submit", function(e){
+    e.preventDefault();
 
-function loginAdmin() {
-  const input = document.getElementById("adminPassword").value;
-  if (input === adminPass) {
-    isAdmin = true;
-    alert("Modo administrador activado.");
-    renderTable(convocatorias);
-  } else {
-    alert("Contraseña incorrecta.");
-  }
-}
+    const data = {
+        institucion: this.institucion.value,
+        titulo: this.titulo.value,
+        enlace: this.enlace.value,
+        tipo: this.tipo.value,
+        descripcion: this.descripcion.value
+    };
 
-function loadData() {
-  fetch(scriptURL) // GET para leer
-    .then(res => res.json())
-    .then(data => {
-      convocatorias = data;
-      renderTable(convocatorias);
+    fetch(URL_WEB_APP, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
     })
-    .catch(err => console.error("Error al cargar:", err));
-}
-
-function renderTable(data) {
-  tableBody.innerHTML = "";
-  data.forEach((item, index) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${item.institucion}</td>
-      <td>${item.titulo}</td>
-      <td><a href="${item.enlace}" target="_blank">${item.enlace}</a></td>
-      <td>${item.tipo}</td>
-      <td>${item.descripcion}</td>
-      <td>
-        ${isAdmin ? `<button class="delete-btn" onclick="deleteEntry(${item.id})">Eliminar</button>` : ""}
-      </td>
-    `;
-    tableBody.appendChild(row);
-  });
-}
-
-function deleteEntry(id) {
-  if (!isAdmin) {
-    alert("No tienes permiso para eliminar registros.");
-    return;
-  }
-  if (confirm("¿Seguro que quieres eliminar esta convocatoria?")) {
-    fetch(`${scriptURL}?action=delete&id=${id}`, {
-      method: "POST"
+    .then(r => r.json())
+    .then(respuesta => {
+        if (respuesta.result === "success") {
+            alert("Datos guardados correctamente");
+            this.reset();
+        } else {
+            alert("Error al guardar");
+        }
     })
-    .then(res => res.json())
-    .then(() => {
-      alert("Registro eliminado");
-      loadData();
-    })
-    .catch(err => alert("Error al eliminar: " + err));
-  }
-}
-form.addEventListener("submit", function(e) {
-  e.preventDefault();
-  const nuevaConvocatoria = {
-    institucion: document.getElementById("institucion").value,
-    titulo: document.getElementById("titulo").value,
-    enlace: document.getElementById("enlace").value,
-    tipo: document.getElementById("tipo").value,
-    descripcion: document.getElementById("descripcion").value
-  };
-
-  fetch(scriptURL, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(nuevaConvocatoria)
-})
-  .then(res => res.json())
-  .then(() => {
-    alert("Convocatoria registrada.");
-    form.reset();
-    loadData();
-  })
-  .catch(err => alert("Error al guardar: " + err));
+    .catch(err => {
+        console.error(err);
+        alert("Error de conexión: " + err);
+    });
 });
-
-searchInput.addEventListener("input", function() {
-  const value = this.value.toLowerCase();
-  const filtered = convocatorias.filter(c =>
-    c.institucion.toLowerCase().includes(value) ||
-    c.titulo.toLowerCase().includes(value) ||
-    c.tipo.toLowerCase().includes(value)
-  );
-  renderTable(filtered);
-});
-
-// Cargar datos al iniciar
-loadData();
 </script>
 
 </body>
 </html>
+
 
 
 
