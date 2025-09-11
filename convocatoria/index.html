@@ -343,11 +343,10 @@ form.addEventListener("submit", function(e) {
   };
 
   fetch(scriptURL, {
-    method: "POST",
-    mode: "cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(nuevaConvocatoria)
-  })
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(nuevaConvocatoria)
+})
   .then(res => res.json())
   .then(() => {
     alert("Convocatoria registrada.");
@@ -373,6 +372,7 @@ loadData();
 
 </body>
 </html>
+
 
 
 
