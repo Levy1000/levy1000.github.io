@@ -266,46 +266,89 @@
   <tbody></tbody>
 </table>
 
+
 <script>
-const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbzusvP1iPbFV2o0_TkwZ5PFj-Os0zFcrCb3Py8Mt3srShRM4rwOW-3xUeMWL9Sl6-l4/exec"; // <-- pega aquí la URL de tu Apps Script
+  const form = document.getElementById("convocatoriaForm");
+  const tableBody = document.querySelector("#convocatoriaTable tbody");
+  const searchInput = document.getElementById("searchInput");
 
-document.getElementById("miFormulario").addEventListener("submit", function(e){
-    e.preventDefault();
+  let convocatorias = JSON.parse(localStorage.getItem("convocatorias")) || [];
+  let isAdmin = false;
+  const adminPass = "admin2025"; // ← Cambia esta contraseña como quieras
 
-    const data = {
-        institucion: this.institucion.value,
-        titulo: this.titulo.value,
-        enlace: this.enlace.value,
-        tipo: this.tipo.value,
-        descripcion: this.descripcion.value
-    };
+  function loginAdmin() {
+    const input = document.getElementById("adminPassword").value;
+    if (input === adminPass) {
+      isAdmin = true;
+      alert("Modo administrador activado.");
+      renderTable(convocatorias);
+    } else {
+      alert("Contraseña incorrecta.");
+    }
+  }
 
-    fetch(URL_WEB_APP, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    })
-    .then(r => r.json())
-    .then(respuesta => {
-        if (respuesta.result === "success") {
-            alert("Datos guardados correctamente");
-            this.reset();
-        } else {
-            alert("Error al guardar");
-        }
-    })
-    .catch(err => {
-        console.error(err);
-        alert("Error de conexión: " + err);
+  function renderTable(data) {
+    tableBody.innerHTML = "";
+    data.forEach((item, index) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${item.institucion}</td>
+        <td>${item.titulo}</td>
+        <td><a href="${item.enlace}" target="_blank">${item.enlace}</a></td>
+        <td>${item.tipo}</td>
+        <td>${item.descripcion}</td>
+        <td>
+          ${isAdmin ? `<button class="delete-btn" onclick="deleteEntry(${index})">Eliminar</button>` : ""}
+        </td>
+      `;
+      tableBody.appendChild(row);
     });
-});
+  }
+
+  function deleteEntry(index) {
+    if (isAdmin) {
+      if (confirm("¿Seguro que quieres eliminar esta convocatoria?")) {
+        convocatorias.splice(index, 1);
+        localStorage.setItem("convocatorias", JSON.stringify(convocatorias));
+        renderTable(convocatorias);
+      }
+    } else {
+      alert("No tienes permiso para eliminar registros.");
+    }
+  }
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const nuevaConvocatoria = {
+      institucion: document.getElementById("institucion").value,
+      titulo: document.getElementById("titulo").value,
+      enlace: document.getElementById("enlace").value,
+      tipo: document.getElementById("tipo").value,
+      descripcion: document.getElementById("descripcion").value
+    };
+    convocatorias.push(nuevaConvocatoria);
+    localStorage.setItem("convocatorias", JSON.stringify(convocatorias));
+    renderTable(convocatorias);
+    form.reset();
+  });
+
+  searchInput.addEventListener("input", function() {
+    const value = this.value.toLowerCase();
+    const filtered = convocatorias.filter(c =>
+      c.institucion.toLowerCase().includes(value) ||
+      c.titulo.toLowerCase().includes(value) ||
+      c.tipo.toLowerCase().includes(value)
+    );
+    renderTable(filtered);
+  });
+
+  // Inicializar tabla al cargar
+  renderTable(convocatorias);
 </script>
 
 </body>
 </html>
+
 
 
 
