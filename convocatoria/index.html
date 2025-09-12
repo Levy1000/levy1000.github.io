@@ -1,172 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Red de Apoyo Interinstitucional</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 30px;
-      background-color: #f7f7f7;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red de Apoyo Interinstitucional</title>
+<style>
+body { font-family: Arial, sans-serif; margin:30px; background:#f7f7f7; }
 
-    .header {
+.header {
   background-color: #4b0082;
-  color: white;
-  padding: 15px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  text-align: center;
+  color:white;
+  padding:15px 20px;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  text-align:center;
 }
 
-.logo-unad {
-  max-height: 120px !important;
-  height: auto;
-  width: auto;
+.header-title h1 { font-size:1.5em; margin:0; font-weight:bold; }
+
+.header img { max-height:50px; height:auto; width:auto; }
+
+form { background:#fff; padding:20px; border:1px solid #ccc; margin-bottom:20px; }
+form label { display:block; margin-top:10px; font-weight:bold; }
+form input, form select, form textarea { width:100%; padding:8px; margin-top:5px; }
+form button { margin-top:15px; padding:10px 15px; background:#4b0082; color:white; border:none; cursor:pointer; }
+
+table { width:100%; border-collapse:collapse; background:white; }
+th, td { border:1px solid #ccc; padding:10px; text-align:left; }
+th { background:#eee; }
+.delete-btn { background:red; color:white; border:none; padding:5px 10px; cursor:pointer; }
+
+.search-container input { padding:8px; width:100%; margin-bottom:15px; }
+
+.intro { background:#fff; padding:15px; border-left:5px solid #4b0082; margin-bottom:20px; }
+
+@media(max-width:768px){
+  .header { flex-direction:column; align-items:center; }
+  .header-title h1 { font-size:1.2em; }
+  .header img { max-height:50px; }
 }
-
-.logo-sue {
-  max-height: 120px !important;
-  height: auto;
-  width: auto;
-}
-
-.logos-left,
-.logos-right {
-  display: flex;
-  gap: 10px;
-  flex: 0 0 auto;
-  align-items: center;
-}
-
-
-
-.header-title {
-  flex: 1 1 auto;
-  padding: 10px;
-}
-
-.header-title h1 {
-  font-size: 1.5em;
-  margin: 0;
-  font-weight: bold;
-}
-
-.header img {
-  max-height: 50px;
-  height: auto;
-  width: auto;
-}
-
-/* Adaptación para pantallas pequeñas */
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .logos-left,
-  .logos-right {
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 5px 0;
-  }
-
-  .header-title h1 {
-    font-size: 1.2em;
-  }
-
-  .header img {
-    max-height: 50px;
-  }
-}
-
-    @media (max-width: 768px) {
-      .header-title h1 {
-        font-size: 1.2em;
-      }
-
-      .logos-left,
-      .logos-right {
-        justify-content: center;
-      }
-
-      .header img {
-        max-height: 50px;
-      }
-    }
-
-    .intro {
-      background: #fff;
-      padding: 15px;
-      border-left: 5px solid #4b0082;
-      margin-bottom: 20px;
-    }
-
-    form {
-      background: #fff;
-      padding: 20px;
-      border: 1px solid #ccc;
-      margin-bottom: 20px;
-    }
-
-    form label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
-    form input, form select, form textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-    }
-
-    form button {
-      margin-top: 15px;
-      padding: 10px 15px;
-      background-color: #4b0082;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-    }
-
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-    }
-
-    th {
-      background-color: #eee;
-    }
-
-    .search-container {
-      margin-bottom: 15px;
-    }
-
-    .search-container input {
-      padding: 8px;
-      width: 100%;
-    }
-
-    .delete-btn {
-      background: red;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-  </style>
+</style>
 </head>
 <body>
 
@@ -175,11 +50,9 @@
     <img src="logo.png" alt="UNAD" class="logo-unad">
     <img src="sue.png" alt="SUE" class="logo-sue">
   </div>
-
   <div class="header-title">
-    <h1><big><strong>Red de Apoyo Interinstitucional - Portal de Oportunidad de Alianza</strong></big></h1>
+    <h1>Red de Apoyo Interinstitucional - Portal de Oportunidades</h1>
   </div>
-
   <div class="logos-right">
     <img src="sura.png" alt="Surcolombiana">
     <img src="tolima.png" alt="Tolima">
@@ -188,36 +61,11 @@
 </header>
 
 <section class="intro">
-  <p>
-    Bienvenido a la Red de Apoyo Interinstitucional, un espacio diseñado para facilitar el acceso a oportunidades de financiamiento, cooperación y respaldo institucional para el desarrollo de proyectos académicos, científicos y tecnológicos. Aquí encontrarás información actualizada sobre las principales convocatorias emitidas por universidades, centros de investigación, organismos gubernamentales, fundaciones y entidades internacionales.
-  </p>
-  <p>
-    Explora, postula y haz parte de una red comprometida con el fortalecimiento de la investigación y la innovación.
-  </p>
-
-  <p>
-    <div class="instrucciones">
-  <li> Instrucciones:</li>
-  <ol>
-    <li>
-      Complete el formulario a continuación con la siguiente información: nombre de la institución, título de la oportunidad, enlace o contacto de la institución u organización, tipo de convocatoria, una breve descripción, fechas importantes y documentación requerida.
-    </li>
-    <li>
-      Haga clic en el botón “Registrar convocatoria” para guardar la información.
-    </li>
-    <li>
-      El registro aparecerá en la parte inferior de la página.
-    </li>
-    <li>
-      Si desea buscar una convocatoria, puede utilizar la barra de búsqueda para filtrar los datos.
-    </li>
-  </ol>
-</div>
-  </p>
+  <p>Bienvenido a la Red de Apoyo Interinstitucional, un espacio para acceder a oportunidades de financiamiento y cooperación institucional. Explora, postula y haz parte de una red comprometida con investigación e innovación.</p>
 </section>
 
-<div id="adminLogin" style="margin-bottom: 20px; background: #fff; padding: 10px; border: 1px solid #ccc;">
-  <label for="adminPassword"><strong>Modo administrador:</strong></label>
+<div id="adminLogin" style="margin-bottom:20px; background:#fff; padding:10px; border:1px solid #ccc;">
+  <label>Modo administrador:</label>
   <input type="password" id="adminPassword" placeholder="Contraseña de administrador">
   <button onclick="loginAdmin()">Ingresar</button>
 </div>
@@ -225,13 +73,10 @@
 <form id="convocatoriaForm">
   <label>Nombre de la institución u organización</label>
   <input type="text" id="institucion" required>
-
   <label>Título de la oportunidad</label>
   <input type="text" id="titulo" required>
-
   <label>Enlace o contacto</label>
-  <input type="text" id="enlace" required>
-
+  <input type="text" id="enlace">
   <label>Tipo de convocatoria</label>
   <select id="tipo">
     <option>Cooperación internacional</option>
@@ -241,10 +86,8 @@
     <option>Sector productivo</option>
     <option>Otra</option>
   </select>
-
   <label>Descripción breve (fechas y documentación)</label>
-  <textarea id="descripcion" rows="4" required></textarea>
-
+  <textarea id="descripcion" rows="4"></textarea>
   <button type="submit">Registrar Convocatoria</button>
 </form>
 
@@ -254,134 +97,104 @@
 
 <table id="convocatoriaTable">
   <thead>
-    <tr>
-      <th>Institución</th>
-      <th>Título</th>
-      <th>Enlace</th>
-      <th>Tipo</th>
-      <th>Descripción</th>
-      <th>Acciones</th>
-    </tr>
+    <tr><th>Institución</th><th>Título</th><th>Enlace</th><th>Tipo</th><th>Descripción</th><th>Acciones</th></tr>
   </thead>
   <tbody></tbody>
 </table>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwIydnFeAkTbOMKX0YuTYPSWVIkx8ojKf6KaHRJwADdJJ-iCDNwae5B2stSCBP_gUhw/exec";
-
-const form = document.getElementById("convocatoriaForm");       // Tu formulario original
-const tableBody = document.querySelector("#convocatoriaTable tbody"); // Tu tabla original
-const searchInput = document.getElementById("searchInput");
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxRytalLMncywkJxRK6I-Fdz9jZDWYN6uwHjwEs9mrgGC1xPSSBRoCmc9HJmiViVw-A/exec"; // Cambiar por tu URL /exec de Apps Script
 
 let convocatorias = [];
 let isAdmin = false;
-const adminPass = "admin2025"; // misma contraseña
+const adminPass = "admin2025";
 
-// --- Activar modo administrador ---
-function loginAdmin() {
-  const input = document.getElementById("adminPassword").value.trim();
-  if (input === adminPass) {
-    isAdmin = true;
-    alert("Modo administrador activado.");
-    renderTable(convocatorias);
-  } else {
-    alert("Contraseña incorrecta.");
-  }
+function loginAdmin(){
+  const input=document.getElementById("adminPassword").value.trim();
+  if(input===adminPass){ isAdmin=true; alert("Modo administrador activado."); renderTable(convocatorias); }
+  else alert("Contraseña incorrecta.");
 }
 
-// --- Renderizar tu tabla original ---
-function renderTable(data) {
-  tableBody.innerHTML = "";
-  data.forEach(item => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
+async function loadData(){
+  try{
+    const res=await fetch(WEB_APP_URL);
+    convocatorias=await res.json();
+    renderTable(convocatorias);
+  }catch(err){ console.error("Error cargando datos:",err); }
+}
+
+function renderTable(data){
+  const tbody=document.querySelector("#convocatoriaTable tbody");
+  tbody.innerHTML="";
+  data.forEach(item=>{
+    const row=document.createElement("tr");
+    row.innerHTML=`
       <td>${item.institucion}</td>
       <td>${item.titulo}</td>
-      <td><a href="${item.enlace}" target="_blank">Enlace</a></td>
+      <td>${item.enlace ? `<a href="${item.enlace}" target="_blank">Enlace</a>` : ""}</td>
       <td>${item.tipo}</td>
       <td>${item.descripcion}</td>
-      <td>
-        ${isAdmin ? `<button class="delete-btn" data-id="${item.id}">Eliminar</button>` : ""}
-      </td>
+      <td>${isAdmin ? `<button class="delete-btn" data-id="${item.id}">Eliminar</button>` : ""}</td>
     `;
-    tableBody.appendChild(row);
+    tbody.appendChild(row);
   });
 
-  // Botones de eliminación solo si es admin
-  if (isAdmin) {
-    document.querySelectorAll(".delete-btn").forEach(btn => {
-      btn.addEventListener("click", () => deleteEntry(btn.dataset.id));
+  if(isAdmin){
+    document.querySelectorAll(".delete-btn").forEach(btn=>{
+      btn.addEventListener("click",()=>deleteEntry(btn.dataset.id));
     });
   }
 }
 
-// --- Cargar datos de Google Sheets ---
-function loadData() {
-  fetch(WEB_APP_URL)
-    .then(r => r.json())
-    .then(data => {
-      convocatorias = data;
-      renderTable(convocatorias);
-    })
-    .catch(err => console.error("Error cargando datos:", err));
+async function deleteEntry(id){
+  if(!confirm("¿Eliminar esta convocatoria?")) return;
+  try{
+    const res=await fetch(WEB_APP_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"delete",id})});
+    const r=await res.json();
+    if(r.result==="success") loadData();
+    else alert("Error al eliminar: "+r.message);
+  }catch(err){ console.error(err); }
 }
 
-// --- Eliminar registro ---
-function deleteEntry(id) {
-  if (!isAdmin) return alert("No tienes permiso.");
-  if (!confirm("¿Eliminar esta convocatoria?")) return;
-
-  fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "delete", id })
-  })
-    .then(r => r.json())
-    .then(() => loadData())
-    .catch(err => console.error("Error al eliminar:", err));
-}
-
-// --- Enviar nueva convocatoria ---
-form.addEventListener("submit", e => {
+document.getElementById("convocatoriaForm").addEventListener("submit",async e=>{
   e.preventDefault();
-const nuevaConvocatoria = {
-  institucion: document.getElementById("institucion").value.trim(),
-  titulo: document.getElementById("titulo").value.trim(),
-  enlace: document.getElementById("enlace").value.trim(),
-  tipo: document.getElementById("tipo").value.trim(),
-  descripcion: document.getElementById("descripcion").value.trim()
-};
-
-  fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(nuevaConvocatoria)
-  })
-    .then(r => r.json())
-    .then(() => {
-      form.reset();
+  const nuevaConvocatoria={
+    institucion: document.getElementById("institucion").value.trim(),
+    titulo: document.getElementById("titulo").value.trim(),
+    enlace: document.getElementById("enlace").value.trim(),
+    tipo: document.getElementById("tipo").value.trim(),
+    descripcion: document.getElementById("descripcion").value.trim()
+  };
+  try{
+    const res=await fetch(WEB_APP_URL,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(nuevaConvocatoria)
+    });
+    const r=await res.json();
+    if(r.result==="success"){
+      alert("Convocatoria registrada!");
+      document.getElementById("convocatoriaForm").reset();
       loadData();
-    })
-    .catch(err => console.error("Error guardando:", err));
+    }else alert("Error: "+r.message);
+  }catch(err){ console.error(err); alert("No se pudo conectar con Google Sheets"); }
 });
 
-// --- Búsqueda en tu tabla ---
-searchInput.addEventListener("input", function() {
-  const v = this.value.toLowerCase();
-  const filtered = convocatorias.filter(c =>
+document.getElementById("searchInput").addEventListener("input",function(){
+  const v=this.value.toLowerCase();
+  renderTable(convocatorias.filter(c=>
     c.institucion.toLowerCase().includes(v) ||
     c.titulo.toLowerCase().includes(v) ||
     c.tipo.toLowerCase().includes(v)
-  );
-  renderTable(filtered);
+  ));
 });
 
-// --- Cargar datos al iniciar ---
 loadData();
 </script>
 
 </body>
 </html>
+
 
 
 
