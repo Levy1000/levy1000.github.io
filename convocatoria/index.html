@@ -303,63 +303,103 @@
     <button type="submit">Guardar</button>
   </form>
 
+
 <script>
-    // Pega aquí la URL que obtuviste al implementar el Web App de Apps Script
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyvBeBEktTlA8Z_iflzo5UNZiy6SdAreyvfAkt-PYAy5PFdUhxs14qCoeNbGFdmY29z/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzf4KgD6Ej1y78dIpv1DMFpCqHS1fdNo3KLjbZe3zM8GdN17Jo8vHeFQmmXQ7KhCgCB/exec";
 
-    // ---------- 1) Obtener datos y mostrarlos ----------
-    function cargarDatos() {
-      fetch(WEB_APP_URL)
-        .then(res => res.json())
-        .then(data => {
-          const tbody = document.querySelector('#tabla tbody');
-          tbody.innerHTML = ''; // limpiar
-          data.forEach(row => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-              <td>${row.Institución}</td>
-              <td>${row.Título}</td>
-              <td><a href="${row.Enlace}" target="_blank">${row.Enlace}</a></td>
-              <td>${row.Tipo}</td>
-              <td>${row.Descripción}</td>
-            `;
-            tbody.appendChild(tr);
-          });
-        })
-        .catch(err => console.error('Error GET:', err));
-    }
+const form = document.getElementById("convocatoriaForm");
+const tableBody = document.querySelector("#convocatoriaTable tbody");
+const searchInput = document.getElementById("searchInput");
 
-    // ---------- 2) Enviar nuevos datos ----------
-    document.getElementById('formulario').addEventListener('submit', e => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const jsonData = {};
-      formData.forEach((v, k) => jsonData[k] = v);
+let convocatorias = [];
+let isAdmin = false;
+const adminPass = "admin2025";
 
-      fetch(WEB_APP_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(jsonData)
-      })
-      .then(res => res.json())
-      .then(r => {
-        if (r.status === 'success') {
-          alert('Registro guardado correctamente');
-          e.target.reset();
-          cargarDatos(); // refresca la tabla
-        } else {
-          alert('Error al guardar');
-        }
-      })
-      .catch(err => console.error('Error POST:', err));
+function loginAdmin() {
+  const input = document.getElementById("adminPassword").value;
+  if (input === adminPass) {
+    isAdmin = true;
+    alert("Modo administrador activado.");
+    renderTable(convocatorias);
+  } else {
+    alert("Contraseña incorrecta.");
+  }
+}
+
+function renderTable(data) {
+  tableBody.innerHTML = "";
+  data.forEach((item, index) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${item.institucion}</td>
+      <td>${item.titulo}</td>
+      <td><a href="${item.enlace}" target="_blank">${item.enlace}</a></td>
+      <td>${item.tipo}</td>
+      <td>${item.descripcion}</td>
+      <td>
+        ${isAdmin ? `<button onclick="deleteEntry(${index})">Eliminar</button>` : ""}
+      </td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
+
+function loadData() {
+  fetch(WEB_APP_URL)
+    .then(r => r.json())
+    .then(data => {
+      convocatorias = data;
+      renderTable(convocatorias);
     });
+}
 
-    // Cargar los datos al abrir la página
-    cargarDatos();
-  </script>
+function deleteEntry(index) {
+  if (!isAdmin) return alert("Sin permiso.");
+  if (confirm("¿Eliminar esta convocatoria?")) {
+    fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify({ action: "delete", index }),
+      headers: { "Content-Type": "application/json" }
+    }).then(loadData);
+  }
+}
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const nueva = {
+    institucion: document.getElementById("institucion").value,
+    titulo: document.getElementById("titulo").value,
+    enlace: document.getElementById("enlace").value,
+    tipo: document.getElementById("tipo").value,
+    descripcion: document.getElementById("descripcion").value
+  };
+  fetch(WEB_APP_URL, {
+    method: "POST",
+    body: JSON.stringify(nueva),
+    headers: { "Content-Type": "application/json" }
+  }).then(() => {
+    form.reset();
+    loadData();
+  });
+});
+
+searchInput.addEventListener("input", function() {
+  const v = this.value.toLowerCase();
+  const filtered = convocatorias.filter(c =>
+    c.institucion.toLowerCase().includes(v) ||
+    c.titulo.toLowerCase().includes(v) ||
+    c.tipo.toLowerCase().includes(v)
+  );
+  renderTable(filtered);
+});
+
+// Cargar datos al iniciar
+loadData();
+</script>
 
 </body>
 </html>
+
 
 
 
