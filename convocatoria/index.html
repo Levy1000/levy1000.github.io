@@ -344,13 +344,13 @@ function deleteEntry(id) {
 // --- Enviar nueva convocatoria ---
 form.addEventListener("submit", e => {
   e.preventDefault();
-  const nuevaConvocatoria = {
-    Institución: document.getElementById("institucion").value.trim(),
-    Titulo: document.getElementById("titulo").value.trim(),
-    Enlace: document.getElementById("enlace").value.trim(),
-    Tipo: document.getElementById("tipo").value.trim(),
-    Descripción: document.getElementById("descripcion").value.trim()
-  };
+const nuevaConvocatoria = {
+  institucion: document.getElementById("institucion").value.trim(),
+  titulo: document.getElementById("titulo").value.trim(),
+  enlace: document.getElementById("enlace").value.trim(),
+  tipo: document.getElementById("tipo").value.trim(),
+  descripcion: document.getElementById("descripcion").value.trim()
+};
 
   fetch(WEB_APP_URL, {
     method: "POST",
@@ -382,6 +382,7 @@ loadData();
 
 </body>
 </html>
+
 
 
 
