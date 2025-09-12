@@ -313,77 +313,98 @@ const searchInput = document.getElementById("searchInput");
 
 let convocatorias = [];
 let isAdmin = false;
-const adminPass = "admin2025";
+const adminPass = "admin2025"; // cambia si lo deseas
 
+// --- Login administrador ---
 function loginAdmin() {
-  const input = document.getElementById("adminPassword").value;
+  const input = document.getElementById("adminPassword").value.trim();
   if (input === adminPass) {
     isAdmin = true;
-    alert("Modo administrador activado.");
+    alert("Modo administrador activado");
     renderTable(convocatorias);
   } else {
-    alert("Contraseña incorrecta.");
+    alert("Contraseña incorrecta");
   }
 }
 
+// --- Renderizar tabla ---
 function renderTable(data) {
   tableBody.innerHTML = "";
-  data.forEach((item, index) => {
+  data.forEach(item => {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${item.institucion}</td>
       <td>${item.titulo}</td>
-      <td><a href="${item.enlace}" target="_blank">${item.enlace}</a></td>
+      <td><a href="${item.enlace}" target="_blank">Enlace</a></td>
       <td>${item.tipo}</td>
       <td>${item.descripcion}</td>
       <td>
-        ${isAdmin ? `<button onclick="deleteEntry(${index})">Eliminar</button>` : ""}
+        ${isAdmin ? `<button data-id="${item.id}" class="delete-btn">Eliminar</button>` : ""}
       </td>
     `;
     tableBody.appendChild(row);
   });
+
+  // Asignar eventos de borrado solo si es admin
+  if (isAdmin) {
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+      btn.addEventListener("click", () => deleteEntry(btn.dataset.id));
+    });
+  }
 }
 
+// --- Cargar datos desde Google Sheets ---
 function loadData() {
   fetch(WEB_APP_URL)
     .then(r => r.json())
     .then(data => {
       convocatorias = data;
       renderTable(convocatorias);
-    });
+    })
+    .catch(err => console.error("Error cargando datos:", err));
 }
 
-function deleteEntry(index) {
+// --- Eliminar registro ---
+function deleteEntry(id) {
   if (!isAdmin) return alert("Sin permiso.");
-  if (confirm("¿Eliminar esta convocatoria?")) {
-    fetch(WEB_APP_URL, {
-      method: "POST",
-      body: JSON.stringify({ action: "delete", index }),
-      headers: { "Content-Type": "application/json" }
-    }).then(loadData);
-  }
+  if (!confirm("¿Eliminar esta convocatoria?")) return;
+
+  fetch(WEB_APP_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "delete", id })
+  })
+    .then(r => r.json())
+    .then(() => loadData())
+    .catch(err => console.error("Error al eliminar:", err));
 }
 
+// --- Enviar nueva convocatoria ---
 form.addEventListener("submit", e => {
   e.preventDefault();
   const nueva = {
-    institucion: document.getElementById("institucion").value,
-    titulo: document.getElementById("titulo").value,
-    enlace: document.getElementById("enlace").value,
-    tipo: document.getElementById("tipo").value,
-    descripcion: document.getElementById("descripcion").value
+    institucion: document.getElementById("institucion").value.trim(),
+    titulo: document.getElementById("titulo").value.trim(),
+    enlace: document.getElementById("enlace").value.trim(),
+    tipo: document.getElementById("tipo").value.trim(),
+    descripcion: document.getElementById("descripcion").value.trim()
   };
+
   fetch(WEB_APP_URL, {
     method: "POST",
-    body: JSON.stringify(nueva),
-    headers: { "Content-Type": "application/json" }
-  }).then(() => {
-    form.reset();
-    loadData();
-  });
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(nueva)
+  })
+    .then(r => r.json())
+    .then(() => {
+      form.reset();
+      loadData();
+    })
+    .catch(err => console.error("Error guardando:", err));
 });
 
-searchInput.addEventListener("input", function() {
+// --- Búsqueda ---
+searchInput.addEventListener("input", function () {
   const v = this.value.toLowerCase();
   const filtered = convocatorias.filter(c =>
     c.institucion.toLowerCase().includes(v) ||
@@ -393,12 +414,13 @@ searchInput.addEventListener("input", function() {
   renderTable(filtered);
 });
 
-// Cargar datos al iniciar
+// --- Iniciar ---
 loadData();
 </script>
 
 </body>
 </html>
+
 
 
 
