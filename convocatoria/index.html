@@ -307,27 +307,27 @@
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzf4KgD6Ej1y78dIpv1DMFpCqHS1fdNo3KLjbZe3zM8GdN17Jo8vHeFQmmXQ7KhCgCB/exec";
 
-const form = document.getElementById("convocatoriaForm");
-const tableBody = document.querySelector("#convocatoriaTable tbody");
+const form = document.getElementById("convocatoriaForm");       // Tu formulario original
+const tableBody = document.querySelector("#convocatoriaTable tbody"); // Tu tabla original
 const searchInput = document.getElementById("searchInput");
 
 let convocatorias = [];
 let isAdmin = false;
-const adminPass = "admin2025"; // cambia si lo deseas
+const adminPass = "admin2025"; // misma contraseña
 
-// --- Login administrador ---
+// --- Activar modo administrador ---
 function loginAdmin() {
   const input = document.getElementById("adminPassword").value.trim();
   if (input === adminPass) {
     isAdmin = true;
-    alert("Modo administrador activado");
+    alert("Modo administrador activado.");
     renderTable(convocatorias);
   } else {
-    alert("Contraseña incorrecta");
+    alert("Contraseña incorrecta.");
   }
 }
 
-// --- Renderizar tabla ---
+// --- Renderizar tu tabla original ---
 function renderTable(data) {
   tableBody.innerHTML = "";
   data.forEach(item => {
@@ -339,13 +339,13 @@ function renderTable(data) {
       <td>${item.tipo}</td>
       <td>${item.descripcion}</td>
       <td>
-        ${isAdmin ? `<button data-id="${item.id}" class="delete-btn">Eliminar</button>` : ""}
+        ${isAdmin ? `<button class="delete-btn" data-id="${item.id}">Eliminar</button>` : ""}
       </td>
     `;
     tableBody.appendChild(row);
   });
 
-  // Asignar eventos de borrado solo si es admin
+  // Botones de eliminación solo si es admin
   if (isAdmin) {
     document.querySelectorAll(".delete-btn").forEach(btn => {
       btn.addEventListener("click", () => deleteEntry(btn.dataset.id));
@@ -353,7 +353,7 @@ function renderTable(data) {
   }
 }
 
-// --- Cargar datos desde Google Sheets ---
+// --- Cargar datos de Google Sheets ---
 function loadData() {
   fetch(WEB_APP_URL)
     .then(r => r.json())
@@ -366,7 +366,7 @@ function loadData() {
 
 // --- Eliminar registro ---
 function deleteEntry(id) {
-  if (!isAdmin) return alert("Sin permiso.");
+  if (!isAdmin) return alert("No tienes permiso.");
   if (!confirm("¿Eliminar esta convocatoria?")) return;
 
   fetch(WEB_APP_URL, {
@@ -382,7 +382,7 @@ function deleteEntry(id) {
 // --- Enviar nueva convocatoria ---
 form.addEventListener("submit", e => {
   e.preventDefault();
-  const nueva = {
+  const nuevaConvocatoria = {
     institucion: document.getElementById("institucion").value.trim(),
     titulo: document.getElementById("titulo").value.trim(),
     enlace: document.getElementById("enlace").value.trim(),
@@ -393,7 +393,7 @@ form.addEventListener("submit", e => {
   fetch(WEB_APP_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(nueva)
+    body: JSON.stringify(nuevaConvocatoria)
   })
     .then(r => r.json())
     .then(() => {
@@ -403,8 +403,8 @@ form.addEventListener("submit", e => {
     .catch(err => console.error("Error guardando:", err));
 });
 
-// --- Búsqueda ---
-searchInput.addEventListener("input", function () {
+// --- Búsqueda en tu tabla ---
+searchInput.addEventListener("input", function() {
   const v = this.value.toLowerCase();
   const filtered = convocatorias.filter(c =>
     c.institucion.toLowerCase().includes(v) ||
@@ -414,12 +414,13 @@ searchInput.addEventListener("input", function () {
   renderTable(filtered);
 });
 
-// --- Iniciar ---
+// --- Cargar datos al iniciar ---
 loadData();
 </script>
 
 </body>
 </html>
+
 
 
 
