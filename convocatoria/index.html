@@ -10,121 +10,45 @@
       margin: 30px;
       background-color: #f7f7f7;
     }
-
     .header {
-  background-color: #4b0082;
-  color: white;
-  padding: 15px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  text-align: center;
-}
-
-.logo-unad {
-  max-height: 120px !important;
-  height: auto;
-  width: auto;
-}
-
-.logo-sue {
-  max-height: 120px !important;
-  height: auto;
-  width: auto;
-}
-
-.logos-left,
-.logos-right {
-  display: flex;
-  gap: 10px;
-  flex: 0 0 auto;
-  align-items: center;
-}
-
-
-
-.header-title {
-  flex: 1 1 auto;
-  padding: 10px;
-}
-
-.header-title h1 {
-  font-size: 1.5em;
-  margin: 0;
-  font-weight: bold;
-}
-
-.header img {
-  max-height: 50px;
-  height: auto;
-  width: auto;
-}
-
-/* Adaptación para pantallas pequeñas */
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .logos-left,
-  .logos-right {
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 5px 0;
-  }
-
-  .header-title h1 {
-    font-size: 1.2em;
-  }
-
-  .header img {
-    max-height: 50px;
-  }
-}
-
-    @media (max-width: 768px) {
-      .header-title h1 {
-        font-size: 1.2em;
-      }
-
-      .logos-left,
-      .logos-right {
-        justify-content: center;
-      }
-
-      .header img {
-        max-height: 50px;
-      }
+      background-color: #4b0082;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      text-align: center;
     }
-
+    .logo-unad, .logo-sue { max-height: 120px !important; height: auto; width: auto; }
+    .logos-left, .logos-right { display: flex; gap: 10px; flex: 0 0 auto; align-items: center; }
+    .header-title { flex: 1 1 auto; padding: 10px; }
+    .header-title h1 { font-size: 1.5em; margin: 0; font-weight: bold; }
+    .header img { max-height: 50px; height: auto; width: auto; }
+    @media (max-width: 768px) {
+      .header { flex-direction: column; align-items: center; }
+      .logos-left, .logos-right { justify-content: center; flex-wrap: wrap; margin: 5px 0; }
+      .header-title h1 { font-size: 1.2em; }
+      .header img { max-height: 50px; }
+    }
     .intro {
       background: #fff;
       padding: 15px;
       border-left: 5px solid #4b0082;
       margin-bottom: 20px;
     }
-
     form {
       background: #fff;
       padding: 20px;
       border: 1px solid #ccc;
       margin-bottom: 20px;
     }
-
-    form label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
+    form label { display: block; margin-top: 10px; font-weight: bold; }
     form input, form select, form textarea {
       width: 100%;
       padding: 8px;
       margin-top: 5px;
     }
-
     form button {
       margin-top: 15px;
       padding: 10px 15px;
@@ -133,32 +57,11 @@
       border: none;
       cursor: pointer;
     }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-    }
-
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-    }
-
-    th {
-      background-color: #eee;
-    }
-
-    .search-container {
-      margin-bottom: 15px;
-    }
-
-    .search-container input {
-      padding: 8px;
-      width: 100%;
-    }
-
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    th { background-color: #eee; }
+    .search-container { margin-bottom: 15px; }
+    .search-container input { padding: 8px; width: 100%; }
     .delete-btn {
       background: red;
       color: white;
@@ -175,11 +78,9 @@
     <img src="logo.png" alt="UNAD" class="logo-unad">
     <img src="sue.png" alt="SUE" class="logo-sue">
   </div>
-
   <div class="header-title">
     <h1><big><strong>Red de Apoyo Interinstitucional - Portal de Oportunidad de Alianza</strong></big></h1>
   </div>
-
   <div class="logos-right">
     <img src="sura.png" alt="Surcolombiana">
     <img src="tolima.png" alt="Tolima">
@@ -189,31 +90,20 @@
 
 <section class="intro">
   <p>
-    Bienvenido a la Red de Apoyo Interinstitucional, un espacio diseñado para facilitar el acceso a oportunidades de financiamiento, cooperación y respaldo institucional para el desarrollo de proyectos académicos, científicos y tecnológicos. Aquí encontrarás información actualizada sobre las principales convocatorias emitidas por universidades, centros de investigación, organismos gubernamentales, fundaciones y entidades internacionales.
+    Bienvenido a la Red de Apoyo Interinstitucional, un espacio diseñado para facilitar el acceso a oportunidades de financiamiento, cooperación y respaldo institucional para el desarrollo de proyectos académicos, científicos y tecnológicos.
   </p>
   <p>
     Explora, postula y haz parte de una red comprometida con el fortalecimiento de la investigación y la innovación.
   </p>
-
-  <p>
-    <div class="instrucciones">
-  <li> Instrucciones:</li>
-  <ol>
-    <li>
-      Complete el formulario a continuación con la siguiente información: nombre de la institución, título de la oportunidad, enlace o contacto de la institución u organización, tipo de convocatoria, una breve descripción, fechas importantes y documentación requerida.
-    </li>
-    <li>
-      Haga clic en el botón “Registrar convocatoria” para guardar la información.
-    </li>
-    <li>
-      El registro aparecerá en la parte inferior de la página.
-    </li>
-    <li>
-      Si desea buscar una convocatoria, puede utilizar la barra de búsqueda para filtrar los datos.
-    </li>
-  </ol>
-</div>
-  </p>
+  <div class="instrucciones">
+    <li>Instrucciones:</li>
+    <ol>
+      <li>Complete el formulario a continuación con la información requerida: Nombre de la institución, título de la oportunidad, enlace o contacto, tipo de convocatoria, descripción breve y fecha de cierre.</li>
+      <li>Haga clic en “Registrar convocatoria” para guardar la información.</li>
+      <li>El registro aparecerá en la parte inferior de la página.</li>
+      <li>Use la barra de búsqueda para filtrar los datos.</li>
+    </ol>
+  </div>
 </section>
 
 <div id="adminLogin" style="margin-bottom: 20px; background: #fff; padding: 10px; border: 1px solid #ccc;">
@@ -236,14 +126,17 @@
   <select id="tipo">
     <option>Cooperación internacional</option>
     <option>Cofinanciación</option>
-    <option>Sistema de regalías</option>
+    <option>Sistema General de Regalías</option>
     <option>Servicios Técnicos</option>
     <option>Sector productivo</option>
     <option>Otra</option>
   </select>
 
-  <label>Descripción breve (fechas y documentación)</label>
+  <label>Descripción breve (documentación)</label>
   <textarea id="descripcion" rows="4" required></textarea>
+
+  <label>Fecha de cierre</label>
+  <input type="date" id="fechaCierre" required>
 
   <button type="submit">Registrar Convocatoria</button>
 </form>
@@ -260,6 +153,7 @@
       <th>Enlace</th>
       <th>Tipo</th>
       <th>Descripción</th>
+      <th>Fecha de cierre</th>
       <th>Acciones</th>
     </tr>
   </thead>
@@ -273,7 +167,7 @@
 
   let convocatorias = JSON.parse(localStorage.getItem("convocatorias")) || [];
   let isAdmin = false;
-  const adminPass = "admin2025"; // ← Cambia esta contraseña como quieras
+  const adminPass = "admin2025";
 
   function loginAdmin() {
     const input = document.getElementById("adminPassword").value;
@@ -296,9 +190,8 @@
         <td><a href="${item.enlace}" target="_blank">${item.enlace}</a></td>
         <td>${item.tipo}</td>
         <td>${item.descripcion}</td>
-        <td>
-          ${isAdmin ? `<button class="delete-btn" onclick="deleteEntry(${index})">Eliminar</button>` : ""}
-        </td>
+        <td>${item.fechaCierre}</td>
+        <td>${isAdmin ? `<button class="delete-btn" onclick="deleteEntry(${index})">Eliminar</button>` : ""}</td>
       `;
       tableBody.appendChild(row);
     });
@@ -323,8 +216,10 @@
       titulo: document.getElementById("titulo").value,
       enlace: document.getElementById("enlace").value,
       tipo: document.getElementById("tipo").value,
-      descripcion: document.getElementById("descripcion").value
-    };
+      descripcion: document.getElementById("descripcion").value,
+      fechaCierre: document.getElementById("fechaCierre").value
+    }; // ✅ Llave cerrada correctamente
+
     convocatorias.push(nuevaConvocatoria);
     localStorage.setItem("convocatorias", JSON.stringify(convocatorias));
     renderTable(convocatorias);
@@ -341,17 +236,12 @@
     renderTable(filtered);
   });
 
-  // Inicializar tabla al cargar
+  // Inicializar tabla
   renderTable(convocatorias);
 </script>
 
 </body>
 </html>
-
-
-
-
-
 
 
 
